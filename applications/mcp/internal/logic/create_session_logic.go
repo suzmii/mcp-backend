@@ -14,25 +14,26 @@ import (
 	"google.golang.org/grpc/status"
 )
 
-type NewSessionLogic struct {
+type CreateSessionLogic struct {
 	ctx    context.Context
 	svcCtx *svc.ServiceContext
 	logx.Logger
 }
 
-func NewNewSessionLogic(ctx context.Context, svcCtx *svc.ServiceContext) *NewSessionLogic {
-	return &NewSessionLogic{
+func NewCreateSessionLogic(ctx context.Context, svcCtx *svc.ServiceContext) *CreateSessionLogic {
+	return &CreateSessionLogic{
 		ctx:    ctx,
 		svcCtx: svcCtx,
 		Logger: logx.WithContext(ctx),
 	}
 }
 
-func (l *NewSessionLogic) NewSession(in *mcp.NewSessionRequest) (*mcp.NewSessionResponse, error) {
+func (l *CreateSessionLogic) CreateSession(in *mcp.CreateSessionRequest) (*mcp.CreateSessionResponse, error) {
 	uuid := uuid.New().String()
 	session := models.Session{
 		UUID:   uuid,
 		UserID: in.UserId,
+		Hint:   in.Hint,
 	}
 
 	qu := query.Q.Session
@@ -42,7 +43,5 @@ func (l *NewSessionLogic) NewSession(in *mcp.NewSessionRequest) (*mcp.NewSession
 		logx.Errorf("创建session失败: %v", err)
 		return nil, status.Error(codes.Internal, "dberror")
 	}
-	return &mcp.NewSessionResponse{
-		SessionUuid: uuid,
-	}, nil
+	return &mcp.CreateSessionResponse{}, nil
 }

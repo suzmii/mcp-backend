@@ -16,6 +16,8 @@ import (
 type (
 	AppendMessageRequest   = mcp.AppendMessageRequest
 	AppendMessageResponse  = mcp.AppendMessageResponse
+	CreateSessionRequest   = mcp.CreateSessionRequest
+	CreateSessionResponse  = mcp.CreateSessionResponse
 	DeleteSessionRequest   = mcp.DeleteSessionRequest
 	DeleteSessionResponse  = mcp.DeleteSessionResponse
 	GetSessionListRequest  = mcp.GetSessionListRequest
@@ -23,12 +25,10 @@ type (
 	GetSessionRequest      = mcp.GetSessionRequest
 	GetSessionResponse     = mcp.GetSessionResponse
 	Message                = mcp.Message
-	NewSessionRequest      = mcp.NewSessionRequest
-	NewSessionResponse     = mcp.NewSessionResponse
 	SessionInfo            = mcp.SessionInfo
 
 	McpService interface {
-		NewSession(ctx context.Context, in *NewSessionRequest, opts ...grpc.CallOption) (*NewSessionResponse, error)
+		CreateSession(ctx context.Context, in *CreateSessionRequest, opts ...grpc.CallOption) (*CreateSessionResponse, error)
 		GetSessionList(ctx context.Context, in *GetSessionListRequest, opts ...grpc.CallOption) (*GetSessionListResponse, error)
 		GetSession(ctx context.Context, in *GetSessionRequest, opts ...grpc.CallOption) (*GetSessionResponse, error)
 		DeleteSession(ctx context.Context, in *DeleteSessionRequest, opts ...grpc.CallOption) (*DeleteSessionResponse, error)
@@ -46,9 +46,9 @@ func NewMcpService(cli zrpc.Client) McpService {
 	}
 }
 
-func (m *defaultMcpService) NewSession(ctx context.Context, in *NewSessionRequest, opts ...grpc.CallOption) (*NewSessionResponse, error) {
+func (m *defaultMcpService) CreateSession(ctx context.Context, in *CreateSessionRequest, opts ...grpc.CallOption) (*CreateSessionResponse, error) {
 	client := mcp.NewMcpServiceClient(m.cli.Conn())
-	return client.NewSession(ctx, in, opts...)
+	return client.CreateSession(ctx, in, opts...)
 }
 
 func (m *defaultMcpService) GetSessionList(ctx context.Context, in *GetSessionListRequest, opts ...grpc.CallOption) (*GetSessionListResponse, error) {

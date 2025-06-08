@@ -19,7 +19,7 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	McpService_NewSession_FullMethodName     = "/mcp.v1.McpService/NewSession"
+	McpService_CreateSession_FullMethodName  = "/mcp.v1.McpService/CreateSession"
 	McpService_GetSessionList_FullMethodName = "/mcp.v1.McpService/GetSessionList"
 	McpService_GetSession_FullMethodName     = "/mcp.v1.McpService/GetSession"
 	McpService_DeleteSession_FullMethodName  = "/mcp.v1.McpService/DeleteSession"
@@ -30,7 +30,7 @@ const (
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type McpServiceClient interface {
-	NewSession(ctx context.Context, in *NewSessionRequest, opts ...grpc.CallOption) (*NewSessionResponse, error)
+	CreateSession(ctx context.Context, in *CreateSessionRequest, opts ...grpc.CallOption) (*CreateSessionResponse, error)
 	GetSessionList(ctx context.Context, in *GetSessionListRequest, opts ...grpc.CallOption) (*GetSessionListResponse, error)
 	GetSession(ctx context.Context, in *GetSessionRequest, opts ...grpc.CallOption) (*GetSessionResponse, error)
 	DeleteSession(ctx context.Context, in *DeleteSessionRequest, opts ...grpc.CallOption) (*DeleteSessionResponse, error)
@@ -45,10 +45,10 @@ func NewMcpServiceClient(cc grpc.ClientConnInterface) McpServiceClient {
 	return &mcpServiceClient{cc}
 }
 
-func (c *mcpServiceClient) NewSession(ctx context.Context, in *NewSessionRequest, opts ...grpc.CallOption) (*NewSessionResponse, error) {
+func (c *mcpServiceClient) CreateSession(ctx context.Context, in *CreateSessionRequest, opts ...grpc.CallOption) (*CreateSessionResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(NewSessionResponse)
-	err := c.cc.Invoke(ctx, McpService_NewSession_FullMethodName, in, out, cOpts...)
+	out := new(CreateSessionResponse)
+	err := c.cc.Invoke(ctx, McpService_CreateSession_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -99,7 +99,7 @@ func (c *mcpServiceClient) AppendMessage(ctx context.Context, in *AppendMessageR
 // All implementations must embed UnimplementedMcpServiceServer
 // for forward compatibility.
 type McpServiceServer interface {
-	NewSession(context.Context, *NewSessionRequest) (*NewSessionResponse, error)
+	CreateSession(context.Context, *CreateSessionRequest) (*CreateSessionResponse, error)
 	GetSessionList(context.Context, *GetSessionListRequest) (*GetSessionListResponse, error)
 	GetSession(context.Context, *GetSessionRequest) (*GetSessionResponse, error)
 	DeleteSession(context.Context, *DeleteSessionRequest) (*DeleteSessionResponse, error)
@@ -114,8 +114,8 @@ type McpServiceServer interface {
 // pointer dereference when methods are called.
 type UnimplementedMcpServiceServer struct{}
 
-func (UnimplementedMcpServiceServer) NewSession(context.Context, *NewSessionRequest) (*NewSessionResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method NewSession not implemented")
+func (UnimplementedMcpServiceServer) CreateSession(context.Context, *CreateSessionRequest) (*CreateSessionResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CreateSession not implemented")
 }
 func (UnimplementedMcpServiceServer) GetSessionList(context.Context, *GetSessionListRequest) (*GetSessionListResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetSessionList not implemented")
@@ -150,20 +150,20 @@ func RegisterMcpServiceServer(s grpc.ServiceRegistrar, srv McpServiceServer) {
 	s.RegisterService(&McpService_ServiceDesc, srv)
 }
 
-func _McpService_NewSession_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(NewSessionRequest)
+func _McpService_CreateSession_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CreateSessionRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(McpServiceServer).NewSession(ctx, in)
+		return srv.(McpServiceServer).CreateSession(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: McpService_NewSession_FullMethodName,
+		FullMethod: McpService_CreateSession_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(McpServiceServer).NewSession(ctx, req.(*NewSessionRequest))
+		return srv.(McpServiceServer).CreateSession(ctx, req.(*CreateSessionRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -248,8 +248,8 @@ var McpService_ServiceDesc = grpc.ServiceDesc{
 	HandlerType: (*McpServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
-			MethodName: "NewSession",
-			Handler:    _McpService_NewSession_Handler,
+			MethodName: "CreateSession",
+			Handler:    _McpService_CreateSession_Handler,
 		},
 		{
 			MethodName: "GetSessionList",

@@ -125,27 +125,28 @@ func (x *Message) GetContent() string {
 	return ""
 }
 
-type NewSessionRequest struct {
+type CreateSessionRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	UserId        uint64                 `protobuf:"varint,1,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
+	Hint          string                 `protobuf:"bytes,2,opt,name=hint,proto3" json:"hint,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
-func (x *NewSessionRequest) Reset() {
-	*x = NewSessionRequest{}
+func (x *CreateSessionRequest) Reset() {
+	*x = CreateSessionRequest{}
 	mi := &file_applications_mcp_proto_mcp_proto_msgTypes[2]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
 
-func (x *NewSessionRequest) String() string {
+func (x *CreateSessionRequest) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*NewSessionRequest) ProtoMessage() {}
+func (*CreateSessionRequest) ProtoMessage() {}
 
-func (x *NewSessionRequest) ProtoReflect() protoreflect.Message {
+func (x *CreateSessionRequest) ProtoReflect() protoreflect.Message {
 	mi := &file_applications_mcp_proto_mcp_proto_msgTypes[2]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -157,39 +158,46 @@ func (x *NewSessionRequest) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use NewSessionRequest.ProtoReflect.Descriptor instead.
-func (*NewSessionRequest) Descriptor() ([]byte, []int) {
+// Deprecated: Use CreateSessionRequest.ProtoReflect.Descriptor instead.
+func (*CreateSessionRequest) Descriptor() ([]byte, []int) {
 	return file_applications_mcp_proto_mcp_proto_rawDescGZIP(), []int{2}
 }
 
-func (x *NewSessionRequest) GetUserId() uint64 {
+func (x *CreateSessionRequest) GetUserId() uint64 {
 	if x != nil {
 		return x.UserId
 	}
 	return 0
 }
 
-type NewSessionResponse struct {
+func (x *CreateSessionRequest) GetHint() string {
+	if x != nil {
+		return x.Hint
+	}
+	return ""
+}
+
+type CreateSessionResponse struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	SessionUuid   string                 `protobuf:"bytes,1,opt,name=session_uuid,json=sessionUuid,proto3" json:"session_uuid,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
-func (x *NewSessionResponse) Reset() {
-	*x = NewSessionResponse{}
+func (x *CreateSessionResponse) Reset() {
+	*x = CreateSessionResponse{}
 	mi := &file_applications_mcp_proto_mcp_proto_msgTypes[3]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
 
-func (x *NewSessionResponse) String() string {
+func (x *CreateSessionResponse) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*NewSessionResponse) ProtoMessage() {}
+func (*CreateSessionResponse) ProtoMessage() {}
 
-func (x *NewSessionResponse) ProtoReflect() protoreflect.Message {
+func (x *CreateSessionResponse) ProtoReflect() protoreflect.Message {
 	mi := &file_applications_mcp_proto_mcp_proto_msgTypes[3]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -201,12 +209,12 @@ func (x *NewSessionResponse) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use NewSessionResponse.ProtoReflect.Descriptor instead.
-func (*NewSessionResponse) Descriptor() ([]byte, []int) {
+// Deprecated: Use CreateSessionResponse.ProtoReflect.Descriptor instead.
+func (*CreateSessionResponse) Descriptor() ([]byte, []int) {
 	return file_applications_mcp_proto_mcp_proto_rawDescGZIP(), []int{3}
 }
 
-func (x *NewSessionResponse) GetSessionUuid() string {
+func (x *CreateSessionResponse) GetSessionUuid() string {
 	if x != nil {
 		return x.SessionUuid
 	}
@@ -615,10 +623,11 @@ const file_applications_mcp_proto_mcp_proto_rawDesc = "" +
 	"\fsession_hint\x18\x02 \x01(\tR\vsessionHint\"7\n" +
 	"\aMessage\x12\x12\n" +
 	"\x04role\x18\x01 \x01(\tR\x04role\x12\x18\n" +
-	"\acontent\x18\x02 \x01(\tR\acontent\",\n" +
-	"\x11NewSessionRequest\x12\x17\n" +
-	"\auser_id\x18\x01 \x01(\x04R\x06userId\"7\n" +
-	"\x12NewSessionResponse\x12!\n" +
+	"\acontent\x18\x02 \x01(\tR\acontent\"C\n" +
+	"\x14CreateSessionRequest\x12\x17\n" +
+	"\auser_id\x18\x01 \x01(\x04R\x06userId\x12\x12\n" +
+	"\x04hint\x18\x02 \x01(\tR\x04hint\":\n" +
+	"\x15CreateSessionResponse\x12!\n" +
 	"\fsession_uuid\x18\x01 \x01(\tR\vsessionUuid\"a\n" +
 	"\x15GetSessionListRequest\x12\x17\n" +
 	"\auser_id\x18\x01 \x01(\x04R\x06userId\x12\x12\n" +
@@ -640,11 +649,10 @@ const file_applications_mcp_proto_mcp_proto_rawDesc = "" +
 	"\auser_id\x18\x01 \x01(\x04R\x06userId\x12!\n" +
 	"\fsession_uuid\x18\x02 \x01(\tR\vsessionUuid\x12+\n" +
 	"\bmessages\x18\x03 \x03(\v2\x0f.mcp.v1.MessageR\bmessages\"\x17\n" +
-	"\x15AppendMessageResponse2\x83\x03\n" +
+	"\x15AppendMessageResponse2\x8c\x03\n" +
 	"\n" +
-	"McpService\x12C\n" +
-	"\n" +
-	"NewSession\x12\x19.mcp.v1.NewSessionRequest\x1a\x1a.mcp.v1.NewSessionResponse\x12O\n" +
+	"McpService\x12L\n" +
+	"\rCreateSession\x12\x1c.mcp.v1.CreateSessionRequest\x1a\x1d.mcp.v1.CreateSessionResponse\x12O\n" +
 	"\x0eGetSessionList\x12\x1d.mcp.v1.GetSessionListRequest\x1a\x1e.mcp.v1.GetSessionListResponse\x12C\n" +
 	"\n" +
 	"GetSession\x12\x19.mcp.v1.GetSessionRequest\x1a\x1a.mcp.v1.GetSessionResponse\x12L\n" +
@@ -667,8 +675,8 @@ var file_applications_mcp_proto_mcp_proto_msgTypes = make([]protoimpl.MessageInf
 var file_applications_mcp_proto_mcp_proto_goTypes = []any{
 	(*SessionInfo)(nil),            // 0: mcp.v1.SessionInfo
 	(*Message)(nil),                // 1: mcp.v1.Message
-	(*NewSessionRequest)(nil),      // 2: mcp.v1.NewSessionRequest
-	(*NewSessionResponse)(nil),     // 3: mcp.v1.NewSessionResponse
+	(*CreateSessionRequest)(nil),   // 2: mcp.v1.CreateSessionRequest
+	(*CreateSessionResponse)(nil),  // 3: mcp.v1.CreateSessionResponse
 	(*GetSessionListRequest)(nil),  // 4: mcp.v1.GetSessionListRequest
 	(*GetSessionListResponse)(nil), // 5: mcp.v1.GetSessionListResponse
 	(*GetSessionRequest)(nil),      // 6: mcp.v1.GetSessionRequest
@@ -683,12 +691,12 @@ var file_applications_mcp_proto_mcp_proto_depIdxs = []int32{
 	0,  // 1: mcp.v1.GetSessionResponse.session:type_name -> mcp.v1.SessionInfo
 	1,  // 2: mcp.v1.GetSessionResponse.messages:type_name -> mcp.v1.Message
 	1,  // 3: mcp.v1.AppendMessageRequest.messages:type_name -> mcp.v1.Message
-	2,  // 4: mcp.v1.McpService.NewSession:input_type -> mcp.v1.NewSessionRequest
+	2,  // 4: mcp.v1.McpService.CreateSession:input_type -> mcp.v1.CreateSessionRequest
 	4,  // 5: mcp.v1.McpService.GetSessionList:input_type -> mcp.v1.GetSessionListRequest
 	6,  // 6: mcp.v1.McpService.GetSession:input_type -> mcp.v1.GetSessionRequest
 	8,  // 7: mcp.v1.McpService.DeleteSession:input_type -> mcp.v1.DeleteSessionRequest
 	10, // 8: mcp.v1.McpService.AppendMessage:input_type -> mcp.v1.AppendMessageRequest
-	3,  // 9: mcp.v1.McpService.NewSession:output_type -> mcp.v1.NewSessionResponse
+	3,  // 9: mcp.v1.McpService.CreateSession:output_type -> mcp.v1.CreateSessionResponse
 	5,  // 10: mcp.v1.McpService.GetSessionList:output_type -> mcp.v1.GetSessionListResponse
 	7,  // 11: mcp.v1.McpService.GetSession:output_type -> mcp.v1.GetSessionResponse
 	9,  // 12: mcp.v1.McpService.DeleteSession:output_type -> mcp.v1.DeleteSessionResponse

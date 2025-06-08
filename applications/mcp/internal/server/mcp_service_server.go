@@ -23,9 +23,9 @@ func NewMcpServiceServer(svcCtx *svc.ServiceContext) *McpServiceServer {
 	}
 }
 
-func (s *McpServiceServer) NewSession(ctx context.Context, in *mcp.NewSessionRequest) (*mcp.NewSessionResponse, error) {
-	l := logic.NewNewSessionLogic(ctx, s.svcCtx)
-	return l.NewSession(in)
+func (s *McpServiceServer) CreateSession(ctx context.Context, in *mcp.CreateSessionRequest) (*mcp.CreateSessionResponse, error) {
+	l := logic.NewCreateSessionLogic(ctx, s.svcCtx)
+	return l.CreateSession(in)
 }
 
 func (s *McpServiceServer) GetSessionList(ctx context.Context, in *mcp.GetSessionListRequest) (*mcp.GetSessionListResponse, error) {

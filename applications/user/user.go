@@ -8,6 +8,7 @@ import (
 	"mcp/applications/user/internal/server"
 	"mcp/applications/user/internal/svc"
 	"mcp/applications/user/pb/user"
+	"mcp/core/log"
 
 	"github.com/zeromicro/go-zero/core/conf"
 	"github.com/zeromicro/go-zero/core/service"
@@ -33,6 +34,8 @@ func main() {
 		}
 	})
 	defer s.Stop()
+
+	log.InitLogx()
 
 	fmt.Printf("Starting rpc server at %s...\n", c.ListenOn)
 	s.Start()
