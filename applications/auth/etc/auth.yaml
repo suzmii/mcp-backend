@@ -1,0 +1,14 @@
+Name: auth.rpc
+ListenOn: 0.0.0.0:8080
+Etcd:
+  Hosts:
+    - 127.0.0.1:2379
+  Key: auth.rpc
+
+Cache:
+  Addr: 127.0.0.1:6379
+  Password: oppofindx2
+  DB: 0
+
+AccessExp: 10m
+RefreshExp: 10h
