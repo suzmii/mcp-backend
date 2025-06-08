@@ -1,6 +1,19 @@
-mcp client server 简称 mcp
+在最开始，请你记住，思考大于行动，在正式开始你的工作前，请先思考整个项目中不清晰的地方，然后提问，在完全明确你需要做什么之后，你再开始动手。
+你是一名富有设计理念的前端开发者，接下来你将会使用 vue3 构建一个精美且完善的 web 应用，包括登录，注册，聊天,和 session 列表页面。
 
-对话基本逻辑：
+接下来我会描述各个页面的功能和页面跳转逻辑，以及页面细节
+首先是登录注册页面
+用户只有 username 和 password，注册也只需要填写这两个信息，登录时也是.
+登录可以拿到 access_token 和 refresh_token。在访问部分接口时，你需要把 access_token 放在请求头中。
+access_token 过期之后，访问这部分接口会返回 401，客户端（也就是你要写的这个 web 应用，后面简称为客户端）应该请求 refresh_token 接口，拿到新的 access_token ，然后重试请求。应该有类似的框架，你可以自由选择技术栈。
+如果 refresh_token 过期，你将无法通过 refresh_token 获取新的 access_token，这时你需要重新登录。
+
+然后是 session 列表
+session 列表页面需要做分页，从后面的 api 中你能得到分页的参数。
+每个列表项包括 sessionID 和 session Hint，你需要把每个列表项做成一个卡片。
+
+最后是聊天页面，这个页面请你仿照现在的 AI 聊天页面，暂时先不支持流式传输。
+以下是对话基本逻辑：
 拿到用户的输入
 if 是新对话
 `call mcp` chat 总结对话主题
@@ -11,6 +24,10 @@ else
 fi
 
 `call后端` append message，传入 user message 和 reply
+
+---
+
+关于 api，请你先把两个 Api 的 base url 留空，并在注释中给出明确提示。
 
 ```json
 // 以下是后端API
@@ -131,7 +148,7 @@ fi
 ```
 
 ```json
-// 以下是mcp接口
+// 以下是mcp接口，这些都不需要token
 [
   {
     // 创建session

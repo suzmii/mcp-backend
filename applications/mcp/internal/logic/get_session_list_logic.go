@@ -38,7 +38,15 @@ func (l *GetSessionListLogic) GetSessionList(in *mcp.GetSessionListRequest) (*mc
 		return nil, status.Error(codes.Internal, "dberror")
 	}
 
-	rsp := &mcp.GetSessionListResponse{}
+	count, err := qs.WithContext(l.ctx).Where(qs.UserID.Eq(in.UserId)).Count()
+	if err != nil {
+		logx.Errorf("统计session列表失败: %v", err)
+		return nil, status.Error(codes.Internal, "dberror")
+	}
+
+	rsp := &mcp.GetSessionListResponse{
+		TotalPage: (uint64(count) + in.PageSize - 1) / in.PageSize,
+	}
 
 	for _, v := range sessions {
 		rsp.Sessions = append(rsp.Sessions, &mcp.SessionInfo{

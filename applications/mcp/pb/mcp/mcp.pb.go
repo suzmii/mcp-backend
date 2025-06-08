@@ -284,6 +284,7 @@ func (x *GetSessionListRequest) GetPageSize() uint64 {
 type GetSessionListResponse struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Sessions      []*SessionInfo         `protobuf:"bytes,1,rep,name=sessions,proto3" json:"sessions,omitempty"`
+	TotalPage     uint64                 `protobuf:"varint,2,opt,name=total_page,json=totalPage,proto3" json:"total_page,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -323,6 +324,13 @@ func (x *GetSessionListResponse) GetSessions() []*SessionInfo {
 		return x.Sessions
 	}
 	return nil
+}
+
+func (x *GetSessionListResponse) GetTotalPage() uint64 {
+	if x != nil {
+		return x.TotalPage
+	}
+	return 0
 }
 
 type GetSessionRequest struct {
@@ -632,9 +640,11 @@ const file_applications_mcp_proto_mcp_proto_rawDesc = "" +
 	"\x15GetSessionListRequest\x12\x17\n" +
 	"\auser_id\x18\x01 \x01(\x04R\x06userId\x12\x12\n" +
 	"\x04page\x18\x02 \x01(\x04R\x04page\x12\x1b\n" +
-	"\tpage_size\x18\x03 \x01(\x04R\bpageSize\"I\n" +
+	"\tpage_size\x18\x03 \x01(\x04R\bpageSize\"h\n" +
 	"\x16GetSessionListResponse\x12/\n" +
-	"\bsessions\x18\x01 \x03(\v2\x13.mcp.v1.SessionInfoR\bsessions\"O\n" +
+	"\bsessions\x18\x01 \x03(\v2\x13.mcp.v1.SessionInfoR\bsessions\x12\x1d\n" +
+	"\n" +
+	"total_page\x18\x02 \x01(\x04R\ttotalPage\"O\n" +
 	"\x11GetSessionRequest\x12\x17\n" +
 	"\auser_id\x18\x01 \x01(\x04R\x06userId\x12!\n" +
 	"\fsession_uuid\x18\x02 \x01(\tR\vsessionUuid\"p\n" +
