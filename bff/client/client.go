@@ -23,6 +23,7 @@ func defaultConfig(key string) zrpc.RpcClientConf {
 		},
 	}
 }
+
 func init() {
 	Auth = authservice.NewAuthService(zrpc.MustNewClient(defaultConfig("auth.rpc")))
 	User = userservice.NewUserService(zrpc.MustNewClient(defaultConfig("user.rpc")))

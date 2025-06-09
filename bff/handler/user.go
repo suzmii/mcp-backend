@@ -7,6 +7,7 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
+	"github.com/zeromicro/go-zero/core/logx"
 )
 
 func Login(c *gin.Context) {
@@ -89,4 +90,30 @@ func RefreshAccessToken(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{
 		"access_token": result.AccessToken,
 	})
+}
+
+func VerifyAccessToken(c *gin.Context) {
+	type Request struct {
+		AccessToken string `json:"access_token"`
+	}
+
+	var req Request
+
+	if err := c.ShouldBind(&req); err != nil {
+		c.Status(http.StatusBadRequest)
+		return
+	}
+
+	_, err := client.Auth.VerifyAccessToken(c.Request.Context(), &auth.VerifyAccessTokenRequest{
+		AccessToken: req.AccessToken,
+	})
+
+	if err != nil {
+		logx.Info(err)
+		c.JSON(http.StatusUnauthorized, gin.H{"error": err.Error()})
+		return
+	}
+
+	c.Status(http.StatusOK)
+
 }

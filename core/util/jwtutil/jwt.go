@@ -44,7 +44,7 @@ func GenerateToken(secret []byte, uid uint64, subject string, perms []enums.Perm
 
 	token := jwt.NewWithClaims(signMethod, claims)
 
-	signedToken, err := token.SignedString(secret[:])
+	signedToken, err := token.SignedString(secret)
 	if err != nil {
 		return "", errors.Wrap(err, "failed to sign token")
 	}

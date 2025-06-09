@@ -25,6 +25,7 @@ func init() {
 		apiRouter.POST("/user/register", handler.Register)
 		apiRouter.POST("/user/login", handler.Login)
 		apiRouter.POST("/user/token/refresh", handler.RefreshAccessToken)
+		apiRouter.POST("/user/token/verify/access", handler.VerifyAccessToken)
 	}
 	{
 		g := apiRouter.Group("/mcp", middleware.VerifyToken)
