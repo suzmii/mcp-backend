@@ -12,10 +12,10 @@ AuthService:
     Key: auth.rpc
 
 DB:
-  Host: "localhost"
+  Host: localhost
   Port: 3306
-  Username: "root"
-  Password: "oppofindx2"
-  DatabaseName: "quiz"
-  DriverName: "mariadb"
+  Username: root
+  Password: oppofindx2
+  DatabaseName: mcp
+  DriverName: mariadb
   AutoCreateDB: true

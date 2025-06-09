@@ -41,7 +41,7 @@ func Register(c *gin.Context) {
 		Password string `json:"password"`
 	}
 	var req Request
-	if err := c.BindJSON(&req); err != nil {
+	if err := c.ShouldBindJSON(&req); err != nil {
 		c.Status(http.StatusBadRequest)
 		return
 	}
@@ -64,7 +64,7 @@ func RefreshAccessToken(c *gin.Context) {
 	}
 
 	var req Request
-	if err := c.BindJSON(&req); err != nil {
+	if err := c.ShouldBindJSON(&req); err != nil {
 		c.Status(http.StatusBadRequest)
 		return
 	}

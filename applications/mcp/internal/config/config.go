@@ -1,8 +1,13 @@
 package config
 
-import "github.com/zeromicro/go-zero/zrpc"
+import (
+	"mcp/dao"
+
+	"github.com/zeromicro/go-zero/zrpc"
+)
 
 type Config struct {
 	zrpc.RpcServerConf
 	// MCPClientBaseURL string
+	DB dao.DBConfig
 }

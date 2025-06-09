@@ -8,6 +8,7 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
+	"github.com/zeromicro/go-zero/core/logx"
 )
 
 func CreateSession(c *gin.Context) {
@@ -42,6 +43,21 @@ func CreateSession(c *gin.Context) {
 }
 
 func GetSessionList(c *gin.Context) {
+	type Request struct {
+		Page     uint64 `form:"page"`
+		PageSize uint64 `form:"pageSize"`
+	}
+
+	var req Request
+
+	logx.Info("getting session list")
+
+	if err := c.ShouldBind(&req); err != nil {
+		c.Status(http.StatusBadRequest)
+	}
+
+	logx.Info(req)
+
 	userId, ok := ctxutil.Get[ctxmodel.UserID](c.Request.Context())
 	if !ok {
 		c.Status(http.StatusUnauthorized)
@@ -49,7 +65,9 @@ func GetSessionList(c *gin.Context) {
 	}
 
 	result, err := client.MCP.GetSessionList(c.Request.Context(), &mcp.GetSessionListRequest{
-		UserId: uint64(userId),
+		UserId:   uint64(userId),
+		Page:     req.Page,
+		PageSize: req.PageSize,
 	})
 	if err != nil {
 		c.JSON(400, gin.H{"error": err.Error()})
@@ -60,16 +78,7 @@ func GetSessionList(c *gin.Context) {
 }
 
 func GetSession(c *gin.Context) {
-	type Request struct {
-		SessionUuid string `form:"id"`
-	}
-
-	var req Request
-
-	if err := c.ShouldBind(&req); err != nil {
-		c.Status(http.StatusBadRequest)
-		return
-	}
+	id := c.Param("id")
 
 	userId, ok := ctxutil.Get[ctxmodel.UserID](c.Request.Context())
 	if !ok {
@@ -79,7 +88,7 @@ func GetSession(c *gin.Context) {
 
 	result, err := client.MCP.GetSession(c.Request.Context(), &mcp.GetSessionRequest{
 		UserId:      uint64(userId),
-		SessionUuid: req.SessionUuid,
+		SessionUuid: id,
 	})
 
 	if err != nil {

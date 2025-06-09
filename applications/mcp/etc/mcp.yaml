@@ -4,3 +4,12 @@ Etcd:
   Hosts:
     - 127.0.0.1:2379
   Key: mcp.rpc
+
+DB:
+  Host: localhost
+  Port: 3306
+  Username: root
+  Password: oppofindx2
+  DatabaseName: mcp
+  DriverName: mariadb
+  AutoCreateDB: true

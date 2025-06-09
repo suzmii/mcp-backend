@@ -43,5 +43,7 @@ func (l *CreateSessionLogic) CreateSession(in *mcp.CreateSessionRequest) (*mcp.C
 		logx.Errorf("创建session失败: %v", err)
 		return nil, status.Error(codes.Internal, "dberror")
 	}
-	return &mcp.CreateSessionResponse{}, nil
+	return &mcp.CreateSessionResponse{
+		SessionUuid: session.UUID,
+	}, nil
 }

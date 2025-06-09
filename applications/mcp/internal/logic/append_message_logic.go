@@ -40,7 +40,7 @@ func (l *AppendMessageLogic) AppendMessage(in *mcp.AppendMessageRequest) (*mcp.A
 		return nil, status.Error(codes.Internal, "dberror")
 	}
 
-	msgs := make([]*models.Message, len(in.Messages))
+	msgs := make([]*models.Message, 0, len(in.Messages))
 
 	for _, v := range in.Messages {
 		msgs = append(msgs, &models.Message{

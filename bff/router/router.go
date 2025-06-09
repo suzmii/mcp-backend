@@ -3,24 +3,34 @@ package router
 import (
 	"mcp/bff/handler"
 	"mcp/bff/middleware"
+	"time"
 
+	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 )
 
 var Router = gin.Default()
-var apiRouter = Router.Group("/v1")
 
 func init() {
+	Router.Use(cors.New(cors.Config{
+		AllowOrigins:     []string{"*"}, // 设置允许的来源
+		AllowMethods:     []string{"GET", "POST", "PUT", "DELETE", "OPTIONS"},
+		AllowHeaders:     []string{"Origin", "Content-Type", "Authorization"},
+		ExposeHeaders:    []string{"Content-Length"},
+		AllowCredentials: true,
+		MaxAge:           12 * time.Hour,
+	}))
+	apiRouter := Router.Group("/v1")
 	{
-		apiRouter.POST("/users/register", handler.Register)
-		apiRouter.POST("/users/login", handler.Login)
-		apiRouter.POST("/auth/refresh", handler.RefreshAccessToken)
+		apiRouter.POST("/user/register", handler.Register)
+		apiRouter.POST("/user/login", handler.Login)
+		apiRouter.POST("/user/token/refresh", handler.RefreshAccessToken)
 	}
 	{
 		g := apiRouter.Group("/mcp", middleware.VerifyToken)
-		g.POST("/sessions", handler.CreateSession)
+		g.POST("/session", handler.CreateSession)
 		g.GET("/sessions", handler.GetSessionList)
 		g.GET("/sessions/:id", handler.GetSession)
-		g.POST("/messages", handler.AppendMessage)
+		g.POST("/message", handler.AppendMessage)
 	}
 }
